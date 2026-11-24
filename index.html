@@ -52,7 +52,6 @@
       display: none !important;
     }
 
-    /* Welcome Screen */
     .welcome-box {
       text-align: center;
       padding: 24px 10px;
@@ -140,7 +139,6 @@
       background: #166534;
     }
 
-    /* Section Selection Screen */
     .sections-header {
       text-align: center;
       margin-bottom: 24px;
@@ -196,7 +194,6 @@
       font-weight: 600;
     }
 
-    /* Stats Dashboard Bar */
     .stats-bar {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -241,7 +238,6 @@
     .stat-correct .stat-value { color: #16a34a; }
     .stat-wrong .stat-value { color: #dc2626; }
 
-    /* Quiz Header */
     .quiz-top {
       display: flex;
       justify-content: space-between;
@@ -266,7 +262,6 @@
       color: var(--muted);
     }
 
-    /* Question & Options */
     .question-text {
       font-size: 1.2rem;
       font-weight: 700;
@@ -345,7 +340,6 @@
       color: #ffffff;
     }
 
-    /* Feedback Box */
     .feedback-box {
       padding: 14px 16px;
       border-radius: 10px;
@@ -367,7 +361,6 @@
       color: var(--error-text);
     }
 
-    /* Navigation Controls */
     .nav-controls {
       display: flex;
       justify-content: space-between;
@@ -377,7 +370,6 @@
       border-top: 1px solid var(--border);
     }
 
-    /* Result Screen */
     .result-box {
       text-align: center;
       padding: 16px 8px;
@@ -441,7 +433,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- 1. Welcome Screen -->
     <div id="welcome-screen" class="welcome-box">
       <span class="badge">PEDIATRIC NURSING</span>
       <h1>Pediatric Nursing Exam Bank</h1>
@@ -452,30 +443,27 @@
           Ahmed Elshabrawy
         </div>
       </div>
-      <button class="btn" onclick="showSections()">Start</button>
+      <button type="button" class="btn" id="start-btn">Start</button>
     </div>
 
-    <!-- 2. Section Selection Screen -->
     <div id="sections-screen" class="hidden">
       <div class="sections-header">
         <h2>Select Exam Section</h2>
         <p>Choose a section below to begin answering questions</p>
       </div>
       <div class="section-grid">
-        <div class="section-card" onclick="startSection('mcq')">
+        <div class="section-card" id="sec-mcq-card">
           <h3>First Section : MCQs</h3>
           <span id="mcq-count-label">Multiple Choice Questions</span>
         </div>
-        <div class="section-card" onclick="startSection('tf')">
+        <div class="section-card" id="sec-tf-card">
           <h3>Second Section : True or False Questions</h3>
           <span id="tf-count-label">True / False Statements</span>
         </div>
       </div>
     </div>
 
-    <!-- 3. Quiz Screen -->
     <div id="quiz-screen" class="hidden">
-      <!-- Live Stats Bar -->
       <div class="stats-bar">
         <div class="stat-item stat-total">
           <span class="stat-value" id="stat-total">0</span>
@@ -511,13 +499,12 @@
       <div id="feedback-box" class="feedback-box hidden"></div>
 
       <div class="nav-controls">
-        <button class="btn btn-secondary" id="back-btn" onclick="prevQuestion()">Back</button>
-        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
-        <button class="btn btn-submit hidden" id="submit-btn" onclick="submitQuiz()">Submit</button>
+        <button type="button" class="btn btn-secondary" id="back-btn">Back</button>
+        <button type="button" class="btn" id="next-btn">Next</button>
+        <button type="button" class="btn btn-submit hidden" id="submit-btn">Submit</button>
       </div>
     </div>
 
-    <!-- 4. Result Screen -->
     <div id="result-screen" class="result-box hidden">
       <span class="badge" id="result-section-badge">SECTION COMPLETED</span>
       <h2>Your Final Score</h2>
@@ -544,14 +531,15 @@
         </div>
       </div>
       <div class="result-actions">
-        <button class="btn btn-secondary" onclick="showSections()">Back to Sections</button>
-        <button class="btn" onclick="retrySection()">Retry Section</button>
+        <button type="button" class="btn btn-secondary" id="back-sections-btn">Back to Sections</button>
+        <button type="button" class="btn" id="retry-btn">Retry Section</button>
       </div>
     </div>
   </div>
 
   <script>
     const quizData = {
+    
       mcq: [
         {
           q: "Which is the main route of transmission of Hepatitis A?",
@@ -1467,13 +1455,13 @@
       ]
     };
 
-    let currentSection = "mcq";
+        let currentSection = "mcq";
     let currentIndex = 0;
     let userAnswers = [];
     let viewedSet = new Set();
 
-    document.getElementById("mcq-count-label").textContent = `${quizData.mcq.length} Questions`;
-    document.getElementById("tf-count-label").textContent = `${quizData.tf.length} Questions`;
+    document.getElementById("mcq-count-label").textContent = quizData.mcq.length + " Questions";
+    document.getElementById("tf-count-label").textContent = quizData.tf.length + " Questions";
 
     function hideAllScreens() {
       document.getElementById("welcome-screen").classList.add("hidden");
@@ -1540,7 +1528,7 @@
       viewedSet.add(currentIndex);
 
       document.getElementById("question-counter").textContent =
-        `Question ${currentIndex + 1} of ${questions.length}`;
+        "Question " + (currentIndex + 1) + " of " + questions.length;
       document.getElementById("question-text").textContent = item.q;
 
       const optionsList = document.getElementById("options-list");
@@ -1552,6 +1540,7 @@
 
       item.options.forEach((optText, idx) => {
         const btn = document.createElement("button");
+        btn.type = "button";
         btn.className = "option-btn";
         btn.disabled = isAnswered;
 
@@ -1572,7 +1561,7 @@
             btn.classList.add("wrong");
           }
         } else {
-          btn.onclick = () => selectAnswer(idx);
+          btn.addEventListener("click", () => selectAnswer(idx));
         }
 
         optionsList.appendChild(btn);
@@ -1586,13 +1575,12 @@
           feedbackBox.textContent = "Correct! Well done.";
         } else {
           feedbackBox.classList.add("feedback-wrong");
-          feedbackBox.textContent = `Incorrect. The correct answer is: ${item.options[item.answer]}`;
+          feedbackBox.textContent = "Incorrect. The correct answer is: " + item.options[item.answer];
         }
       } else {
         feedbackBox.classList.add("hidden");
       }
 
-      // Navigation buttons
       document.getElementById("back-btn").disabled = currentIndex === 0;
 
       const nextBtn = document.getElementById("next-btn");
@@ -1653,8 +1641,8 @@
         currentSection === "mcq"
           ? "FIRST SECTION : MCQs"
           : "SECOND SECTION : TRUE OR FALSE";
-      document.getElementById("final-score").textContent = `${correct} / ${total}`;
-      document.getElementById("final-percent").textContent = `${percent}%`;
+      document.getElementById("final-score").textContent = correct + " / " + total;
+      document.getElementById("final-percent").textContent = percent + "%";
       document.getElementById("res-total").textContent = total;
       document.getElementById("res-viewed").textContent = viewed;
       document.getElementById("res-correct").textContent = correct;
@@ -1663,9 +1651,19 @@
       hideAllScreens();
       document.getElementById("result-screen").classList.remove("hidden");
     }
+
+    document.getElementById("start-btn").addEventListener("click", showSections);
+    document.getElementById("sec-mcq-card").addEventListener("click", () => startSection("mcq"));
+    document.getElementById("sec-tf-card").addEventListener("click", () => startSection("tf"));
+    document.getElementById("back-btn").addEventListener("click", prevQuestion);
+    document.getElementById("next-btn").addEventListener("click", nextQuestion);
+    document.getElementById("submit-btn").addEventListener("click", submitQuiz);
+    document.getElementById("back-sections-btn").addEventListener("click", showSections);
+    document.getElementById("retry-btn").addEventListener("click", retrySection);
   </script>
 </body>
 </html>
+
 
     
     
