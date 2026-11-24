@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pediatric Nursing Quiz</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-hover: #1d4ed8;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success-bg: #dcfce7;
+      --success-border: #16a34a;
+      --success-text: #14532d;
+      --error-bg: #fee2e2;
+      --error-border: #dc2626;
+      --error-text: #7f1d1d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .container {
+      background: var(--card);
+      width: 100%;
+      max-width: 760px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Welcome Screen */
+    .welcome-box {
+      text-align: center;
+      padding: 24px 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .welcome-box h1 {
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .prepared-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      max-width: 420px;
+      margin: 0 auto 28px;
+    }
+
+    .prepared-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .prepared-names {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.6;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 13px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #cbd5e1;
+    }
+
+    .btn-submit {
+      background: #15803d;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: #166534;
+    }
+
+    /* Section Selection Screen */
+    .sections-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .sections-header h2 {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .sections-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-card {
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .section-card:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+      transform: translateY(-2px);
+    }
+
+    .section-card h3 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .section-card span {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Stats Dashboard Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 540px) {
+      .stats-bar {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 6px 4px;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .stat-total .stat-value { color: #0f172a; }
+    .stat-viewed .stat-value { color: #2563eb; }
+    .stat-answered .stat-value { color: #7c3aed; }
+    .stat-correct .stat-value { color: #16a34a; }
+    .stat-wrong .stat-value { color: #dc2626; }
+
+    /* Quiz Header */
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-tag {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #dbeafe;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .q-counter {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    /* Question & Options */
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: #f8fafc;
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
+      font-weight: 700;
+    }
+
+    .option-btn.correct .option-letter {
+      background: var(--success-border);
+      color: #ffffff;
+    }
+
+    .option-btn.wrong {
+      background: var(--error-bg);
+      border-color: var(--error-border);
+      color: var(--error-text);
+      font-weight: 700;
+    }
+
+    .option-btn.wrong .option-letter {
+      background: var(--error-border);
+      color: #ffffff;
+    }
+
+    /* Feedback Box */
+    .feedback-box {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.98rem;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+    }
+
+    .feedback-correct {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
+    }
+
+    .feedback-wrong {
+      background: var(--error-bg);
+      border-color: var(--error-border);
+      color: var(--error-text);
+    }
+
+    /* Navigation Controls */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Result Screen */
+    .result-box {
+      text-align: center;
+      padding: 16px 8px;
+    }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #eff6ff;
+      border: 6px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 18px auto;
+    }
+
+    .score-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .score-percent {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 440px;
+      margin: 20px auto 26px;
+      text-align: left;
+    }
+
+    .summary-card {
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 1. Welcome Screen -->
+    <div id="welcome-screen" class="welcome-box">
+      <span class="badge">PEDIATRIC NURSING</span>
+      <h1>Pediatric Nursing Exam Bank</h1>
+      <div class="prepared-box">
+        <div class="prepared-label">Prepared By</div>
+        <div class="prepared-names">
+          Esraa Hussein<br />
+          Ahmed Elshabrawy
+        </div>
+      </div>
+      <button class="btn" onclick="showSections()">Start</button>
+    </div>
+
+    <!-- 2. Section Selection Screen -->
+    <div id="sections-screen" class="hidden">
+      <div class="sections-header">
+        <h2>Select Exam Section</h2>
+        <p>Choose a section below to begin answering questions</p>
+      </div>
+      <div class="section-grid">
+        <div class="section-card" onclick="startSection('mcq')">
+          <h3>First Section : MCQs</h3>
+          <span id="mcq-count-label">Multiple Choice Questions</span>
+        </div>
+        <div class="section-card" onclick="startSection('tf')">
+          <h3>Second Section : True or False Questions</h3>
+          <span id="tf-count-label">True / False Statements</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Quiz Screen -->
+    <div id="quiz-screen" class="hidden">
+      <!-- Live Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item stat-total">
+          <span class="stat-value" id="stat-total">0</span>
+          <span class="stat-label">Total</span>
+        </div>
+        <div class="stat-item stat-viewed">
+          <span class="stat-value" id="stat-viewed">0</span>
+          <span class="stat-label">Opened</span>
+        </div>
+        <div class="stat-item stat-answered">
+          <span class="stat-value" id="stat-answered">0</span>
+          <span class="stat-label">Solved</span>
+        </div>
+        <div class="stat-item stat-correct">
+          <span class="stat-value" id="stat-correct">0</span>
+          <span class="stat-label">Correct</span>
+        </div>
+        <div class="stat-item stat-wrong">
+          <span class="stat-value" id="stat-wrong">0</span>
+          <span class="stat-label">Wrong</span>
+        </div>
+      </div>
+
+      <div class="quiz-top">
+        <span class="section-tag" id="current-section-title">First Section : MCQs</span>
+        <span class="q-counter" id="question-counter">Question 1 of 10</span>
+      </div>
+
+      <div class="question-text" id="question-text"></div>
+
+      <div class="options-list" id="options-list"></div>
+
+      <div id="feedback-box" class="feedback-box hidden"></div>
+
+      <div class="nav-controls">
+        <button class="btn btn-secondary" id="back-btn" onclick="prevQuestion()">Back</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+        <button class="btn btn-submit hidden" id="submit-btn" onclick="submitQuiz()">Submit</button>
+      </div>
+    </div>
+
+    <!-- 4. Result Screen -->
+    <div id="result-screen" class="result-box hidden">
+      <span class="badge" id="result-section-badge">SECTION COMPLETED</span>
+      <h2>Your Final Score</h2>
+      <div class="score-circle">
+        <span class="score-number" id="final-score">0 / 0</span>
+        <span class="score-percent" id="final-percent">0%</span>
+      </div>
+      <div class="result-summary">
+        <div class="summary-card">
+          Total Questions
+          <strong id="res-total">0</strong>
+        </div>
+        <div class="summary-card">
+          Questions Opened
+          <strong id="res-viewed">0</strong>
+        </div>
+        <div class="summary-card">
+          Correct Answers
+          <strong style="color: #16a34a;" id="res-correct">0</strong>
+        </div>
+        <div class="summary-card">
+          Wrong Answers
+          <strong style="color: #dc2626;" id="res-wrong">0</strong>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="showSections()">Back to Sections</button>
+        <button class="btn" onclick="retrySection()">Retry Section</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quizData = {
+      mcq: [
+        {
+          q: "Which is the main route of transmission of Hepatitis A?",
+          options: ["Oral", "Blood", "Parenteral", "Intrauterine"],
+          answer: 0
+        },
+        {
+          q: "What is the incubation period of Hepatitis A?",
+          options: ["2 months", "1 month", "4 months", "3 months"],
+          answer: 1
+        },
+        {
+          q: "Chronic diarrhea is diarrhea lasting more than:",
+          options: ["One month", "Six months", "Three months", "One week"],
+          answer: 0
+        },
+        {
+          q: "Which of the following is the route of transmission of Hepatitis A?",
+          options: ["Intrauterine", "Syringe", "Blood products", "Feco-oral"],
+          answer: 3
+        },
+        {
+          q: "Which of the following causes abdominal distension?",
+          options: ["Hypokalemia", "Hypocalcemia", "Hyperkalemia", "Hypercalcemia"],
+          answer: 0
+        },
+        {
+          q: "Treatment Plan B for dehydration is to give oral fluids at:",
+          options: ["100 ml/kg", "50 ml/kg", "75 ml/kg", "200 ml/kg"],
+          answer: 2
+        },
+        {
+          q: "Tenesmus means:",
+          options: ["Mucus in stool", "Sense of incomplete evacuation", "Blood in stool", "Pus in stool"],
+          answer: 1
+        },
+        {
+          q: "The infant is lethargic in cases of diarrhea with:",
+          options: ["No dehydration", "Mild dehydration", "Moderate dehydration", "Severe dehydration"],
+          answer: 3
+        },
+        {
+          q: "In infants with some dehydration, treatment is:",
+          options: ["100 ml/kg IV fluids", "100 ml/kg oral fluids", "75 ml/kg oral fluids", "75 ml/kg IV fluids"],
+          answer: 2
+        },
+        {
+          q: "Hypertonic dehydration is characterized by:",
+          options: ["Normal tongue", "Dry tongue", "Woody tongue", "Wet tongue"],
+          answer: 2
+        },
+        {
+          q: "Dysentery means:",
+          options: ["Blood in stool", "Pus in stool", "Green stool", "Mucus in stool"],
+          answer: 0
+        },
+        {
+          q: "Persistent diarrhea means diarrhea lasting more than:",
+          options: ["1 month", "7 days", "14 days", "21 days"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is modified ORS?",
+          options: ["ORS with sodium", "ORS with glucose", "ORS with potassium", "ORS with Zinc"],
+          answer: 3
+        },
+        {
+          q: "Stridor is:",
+          options: ["Inspiratory sound", "Expiratory sound", "Bronchial narrowing", "Both inspiratory and expiratory sound"],
+          answer: 0
+        },
+        {
+          q: "Inheritance of beta thalassemia is:",
+          options: ["Autosomal dominant", "Sex-linked dominant", "Sex-linked recessive", "Autosomal recessive"],
+          answer: 3
+        },
+        {
+          q: "What is the best diagnostic clue for acute bronchiolitis?",
+          options: ["Clinical", "Laboratory", "Bronchoscopy", "Radiological"],
+          answer: 0
+        },
+        {
+          q: "What is the most common cause of acute bronchiolitis?",
+          options: ["Mycoplasma", "Rhinovirus", "Respiratory syncytial virus (RSV)", "Adenovirus"],
+          answer: 2
+        },
+        {
+          q: "What is the most dangerous condition among the following?",
+          options: ["Laryngomalacia", "Acute viral laryngitis", "Acute epiglottitis", "Midnight croup"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a complication of Hepatitis A?",
+          options: ["Hepatocellular carcinoma", "Liver cirrhosis", "Chronic hepatitis", "Acute fulminant hepatitis"],
+          answer: 3
+        },
+        {
+          q: "Which of the following is correct regarding Hepatitis C?",
+          options: ["No treatment", "There is no treatment or vaccine", "No vaccine", "There is treatment and vaccine"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a predisposing factor for rheumatic fever?",
+          options: ["High socioeconomic status", "Viral pharyngitis", "Family history of rheumatic fever", "Vaccination history"],
+          answer: 2
+        },
+        {
+          q: "What is the peak age of rheumatic fever presentation?",
+          options: ["2 years", "5 years", "8 years", "15 years"],
+          answer: 2
+        },
+        {
+          q: "Which of the following best describes the type of arthritis seen in rheumatic fever?",
+          options: ["Non-inflammatory and chronic", "Fixed and localized", "Migratory and affects large joints", "Degenerative and symmetrical"],
+          answer: 2
+        },
+        {
+          q: "Which of the following best describes carditis in rheumatic fever?",
+          options: ["It affects only the heart valves", "It involves all layers of the heart (pan-carditis)", "It is limited to the myocardium only", "It causes acute coronary artery inflammation"],
+          answer: 1
+        },
+        {
+          q: "What is the characteristic finding in pericarditis during auscultation in rheumatic fever?",
+          options: ["Muffled heart sounds", "Pericardial friction rub", "Continuous murmur", "S3 gallop"],
+          answer: 1
+        },
+        {
+          q: "What is a possible complication of myocarditis in rheumatic fever?",
+          options: ["Hypertension", "Heart failure", "Renal failure", "Stroke"],
+          answer: 1
+        },
+        {
+          q: "Which of the following murmur findings strongly suggests rheumatic carditis?",
+          options: ["Continuous murmur since birth", "Murmur heard best when lying on the left side", "Systolic murmur heard only during fever", "Change in character of a previously known murmur"],
+          answer: 1
+        },
+        {
+          q: "Which of the following best describes the typical presentation of Sydenham chorea in rheumatic fever?",
+          options: [
+            "Occurs 8 months after streptococcal infection with involuntary movements and emotional instability",
+            "Occurs 2 weeks after streptococcal infection with muscle cramps and fever",
+            "Occurs 2-6 months after streptococcal infection with involuntary movements and emotional instability",
+            "Occurs 2 years after streptococcal infection with generalized fatigue and joint stiffness"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which of the following combinations is sufficient to diagnose an initial attack of rheumatic fever according to Jones criteria?",
+          options: [
+            "1 major + 1 minor + evidence of streptococcal infection",
+            "2 major + no evidence of streptococcal infection",
+            "2 minor + evidence of streptococcal infection",
+            "1 major + 2 minor + evidence of streptococcal infection"
+          ],
+          answer: 3
+        },
+        {
+          q: "Which of the following combinations is acceptable for diagnosing a recurrent attack of rheumatic fever?",
+          options: [
+            "1 major only",
+            "3 minor manifestations without evidence of GABHS infection",
+            "3 minor manifestations with evidence of GABHS infection",
+            "1 major and 1 minor with evidence of GABHS infection"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which of the following drugs is the treatment of choice for arthritis in rheumatic fever?",
+          options: ["Penicillin", "Paracetamol", "Salicylates - Aspirin", "Steroids"],
+          answer: 2
+        },
+        {
+          q: "Which of the following drugs is commonly used in the treatment of severe carditis in rheumatic fever?",
+          options: ["Ibuprofen", "Paracetamol", "Steroid - Prednisone", "Amoxicillin"],
+          answer: 2
+        },
+        {
+          q: "In the primary prevention of rheumatic fever, what is the appropriate dose of Benzathine Penicillin G for a child weighing 20 kg?",
+          options: ["1,200,000 IU IM", "600,000 IU IM", "400,000 IU IM", "No antibiotic needed"],
+          answer: 1
+        },
+        {
+          q: "Rheumatic fever is best classified as which of the following?",
+          options: ["Autoimmune degenerative disease", "Inflammatory disease following streptococcal infection", "Genetic cardiac malformation", "Viral illness affecting the joints"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is necessary for diagnosing rheumatic fever?",
+          options: ["Positive Rheumatoid Factor", "Elevated ESR alone", "Evidence of recent streptococcal infection", "Low hemoglobin level"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a typical feature of arthritis in rheumatic fever?",
+          options: ["It affects small joints and is non-painful", "It is a painless swelling with no redness or heat", "It causes painful, hot, red, and swollen joints with fever", "It is associated with deformity and joint destruction"],
+          answer: 2
+        },
+        {
+          q: "All of the following are considered major criteria of rheumatic fever EXCEPT:",
+          options: ["Carditis", "Subcutaneous nodules", "Erythema marginatum", "Fever"],
+          answer: 3
+        },
+        {
+          q: "All of the following are considered minor criteria of rheumatic fever EXCEPT:",
+          options: ["Arthralgia", "Elevated ESR or CRP", "Fever", "Chorea"],
+          answer: 3
+        },
+        {
+          q: "Which of the following is most likely associated with systemic venous congestion?",
+          options: ["Dyspnea and orthopnea", "Pink frothy sputum", "Elevated jugular venous pressure (Right-sided heart failure)", "Fine crackles heard over lung bases"],
+          answer: 2
+        },
+        {
+          q: "Which of the following symptoms is most commonly associated with pulmonary congestion?",
+          options: ["Leg swelling", "Abdominal distension", "Shortness of breath with tachypnea and wheezing", "Neck vein distension"],
+          answer: 2
+        },
+        {
+          q: "Which of the following defines anemia correctly?",
+          options: ["Increase in RBC count above normal for age and sex", "Reduction in hemoglobin only without change in RBC count", "Reduction in RBC count or Hb% below normal ranges for age and sex (-2SD)", "Reduction in hematocrit only regardless of age"],
+          answer: 2
+        },
+        {
+          q: "Which of the following best defines hemolytic anemia?",
+          options: ["RBC lifespan longer than 120 days", "Decreased RBC production in bone marrow", "Increased RBC destruction >1% per day or lifespan <100 days", "Iron deficiency due to chronic blood loss"],
+          answer: 2
+        },
+        {
+          q: "What is the expected normal hemoglobin level in a healthy 2-month-old infant?",
+          options: ["13.5 g/dL", "12.0 g/dL", "9.0 g/dL", "10.5 g/dL"],
+          answer: 2
+        },
+        {
+          q: "A 3-year-old child is found to have a hemoglobin level of 10 g/dL. This value is considered:",
+          options: ["Normal for age", "Below normal for age", "Above normal for age", "Normal for neonates only"],
+          answer: 1
+        },
+        {
+          q: "Which of the following hemoglobin levels is considered normal for a 17-year-old male adolescent?",
+          options: ["10.5 g/dL", "11.5 g/dL", "12.0 g/dL", "13.0 g/dL"],
+          answer: 3
+        },
+        {
+          q: "A 5-year-old boy was brought to the clinic for a routine check-up. His laboratory results showed a hemoglobin level of 10.5 g/dL. Based on his age, what should be the expected normal hemoglobin level?",
+          options: ["9.0 g/dL", "10.0 g/dL", "11.5 g/dL", "13.0 g/dL"],
+          answer: 2
+        },
+        {
+          q: "A 2-year-old child presents with irritability, poor attention span, frequent breath-holding spells, and delayed motor development. Which of the following deficiencies is most likely responsible?",
+          options: ["Vitamin D deficiency", "Iodine deficiency", "Iron deficiency", "Vitamin B12 deficiency"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a recognized central nervous system manifestation of iron deficiency in children?",
+          options: ["Night blindness and photophobia", "Breath-holding spells and decreased attention span", "Seizures and hypotonia", "Visual hallucinations and euphoria"],
+          answer: 1
+        },
+        {
+          q: "What is the earliest clinical improvement observed after initiating iron therapy in a child with iron deficiency anemia?",
+          options: ["Increase in hemoglobin level", "Normalization of serum ferritin", "Improvement in irritability and attention span", "Correction of papilledema"],
+          answer: 2
+        },
+        {
+          q: "Which of the following best describes the type of anemia commonly seen in iron deficiency?",
+          options: ["Normocytic normochromic anemia", "Macrocytic hypochromic anemia", "Microcytic hypochromic anemia", "Macrocytic normochromic anemia"],
+          answer: 2
+        },
+        {
+          q: "Which laboratory pattern is most typical in active iron deficiency anemia?",
+          options: ["Increased serum iron and increased ferritin", "Decreased serum ferritin and serum iron, increased iron-binding capacity", "Normal serum iron, increased ferritin, decreased iron-binding capacity", "Increased serum iron and decreased iron-binding capacity"],
+          answer: 1
+        },
+        {
+          q: "Which of the following statements about Glucose-6-Phosphate Dehydrogenase (G6PD) deficiency is correct?",
+          options: ["It is an autosomal dominant disorder affecting both sexes equally", "It is an X-linked disorder that commonly affects males", "It is more common in females due to hormonal effect", "It is a mitochondrial disorder transmitted only through mothers"],
+          answer: 1
+        },
+        {
+          q: "Which of the following can trigger hemolytic episodes in patients with G6PD deficiency?",
+          options: ["Paracetamol, dairy products, and citrus fruits", "Sulfonamides, fava beans, naphthalene, and antipyretics", "Antacids, bananas, and multivitamins", "Iron supplements and antihistamines"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is a common presentation during an acute hemolytic crisis in G6PD deficiency?",
+          options: ["Hypertension, rash, and bradycardia", "Pallor, jaundice, and dark red urine", "Fever, sweating, and blurred vision", "Cyanosis, dry mouth, and constipation"],
+          answer: 1
+        },
+        {
+          q: "What is the most common type of anemia seen in Glucose-6-Phosphate Dehydrogenase (G6PD) deficiency?",
+          options: ["Microcytic hypochromic anemia", "Normocytic normochromic anemia", "Macrocytic hyperchromic anemia", "Dimorphic anemia"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is commonly seen in the gastrointestinal manifestations of iron deficiency?",
+          options: ["Polyphagia, epistaxis, and tremors", "Anorexia, pica, atrophic glossitis, and dysphagia", "Hyperphagia, vomiting, and ascites", "Hematemesis, bradycardia, and constipation"],
+          answer: 1
+        },
+        {
+          q: "All of the following are clinical triggers of hemolytic episodes in G6PD deficiency EXCEPT:",
+          options: ["Fava beans", "Vitamin C", "Antimalarial drugs", "Hypertension"],
+          answer: 3
+        },
+        {
+          q: "Which of the following is true regarding the management of G6PD deficiency with hemolytic anemia?",
+          options: ["Whole blood transfusion is preferred if Hb < 9 g/dL", "Avoidance of oxidative drugs is not necessary", "Treatment involves giving packed RBCs if Hb drops below 9 g/dL", "Iron supplements are the first-line treatment"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is the mode of inheritance of Hereditary Spherocytosis?",
+          options: ["X-linked recessive", "Autosomal recessive", "Autosomal dominant", "Mitochondrial"],
+          answer: 2
+        },
+        {
+          q: "What is the confirmatory diagnostic test used for Hereditary Spherocytosis?",
+          options: ["Coombs test", "Hemoglobin electrophoresis", "Osmotic fragility test", "Reticulocyte count"],
+          answer: 2
+        },
+        {
+          q: "Hereditary Spherocytosis is best classified as:",
+          options: ["Acute anemia", "Chronic hemolytic anemia", "Megaloblastic anemia", "Aplastic anemia"],
+          answer: 1
+        },
+        {
+          q: "What is the definitive treatment option for severe Hereditary Spherocytosis?",
+          options: ["Iron therapy", "Splenectomy", "Blood transfusion", "Bone marrow transplant"],
+          answer: 1
+        },
+        {
+          q: "What is the mode of inheritance of Thalassemia?",
+          options: ["Autosomal dominant", "Autosomal recessive", "X-linked recessive", "Mitochondrial"],
+          answer: 1
+        },
+        {
+          q: "Which of the following types of Thalassemia is also known as Cooley's anemia?",
+          options: ["Beta Thalassemia minor", "Alpha Thalassemia trait", "Beta Thalassemia major", "Beta Thalassemia intermediate"],
+          answer: 2
+        },
+        {
+          q: "Which type of Beta Thalassemia is characterized by hemoglobin level usually higher than 7 g/dL?",
+          options: ["Minor", "Intermediate", "Major", "Alpha trait"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is the most common form of Beta Thalassemia?",
+          options: ["Alpha Thalassemia major", "Beta Thalassemia minor", "Beta Thalassemia intermediate", "Beta Thalassemia major"],
+          answer: 3
+        },
+        {
+          q: "Which of the following symptoms in Thalassemia is caused by hemolysis (destruction of RBCs)?",
+          options: ["Dizziness", "Bone pain", "Dark-colored urine", "Abdominal swelling"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a manifestation of anemia in Beta Thalassemia Major?",
+          options: ["Anorexia", "Hepatomegaly", "Skeletal deformities", "Thalassemic facies"],
+          answer: 0
+        },
+        {
+          q: "Which of the following is caused by increased medullary erythropoiesis?",
+          options: ["Dyspnea on effort", "Cardiac decompensation", "Skeletal deformities", "Hepatomegaly"],
+          answer: 2
+        },
+        {
+          q: "What causes hepatomegaly in Beta Thalassemia Major?",
+          options: ["Cardiac failure", "Iron deficiency", "Extramedullary erythropoiesis", "Bone marrow suppression"],
+          answer: 2
+        },
+        {
+          q: "All of the following are complications of Beta Thalassemia Major EXCEPT:",
+          options: ["Hemosiderosis", "Pigment gallstones", "Liver cirrhosis", "Nephrotic syndrome"],
+          answer: 3
+        },
+        {
+          q: "Which of the following is NOT commonly seen as a complication of Thalassemia?",
+          options: ["Aplastic crisis", "Pulmonary hemosiderosis", "Hyperthyroidism", "Cardiac complications"],
+          answer: 2
+        },
+        {
+          q: "What type of anemia is typically seen in patients with Thalassemia?",
+          options: ["Macrocytic hyperchromic", "Normocytic normochromic", "Microcytic hypochromic", "Hemolytic normocytic"],
+          answer: 2
+        },
+        {
+          q: "Which of the following findings is increased in the peripheral blood of a patient with Beta Thalassemia Major?",
+          options: ["Reticulocyte count", "Platelet count", "MCV", "Neutrophils"],
+          answer: 0
+        },
+        {
+          q: "Which of the following red blood cell abnormalities is commonly seen in the peripheral blood smear of a patient with Thalassemia?",
+          options: ["Schistocytes", "Target cells", "Spherocytes", "Tear drop cells"],
+          answer: 1
+        },
+        {
+          q: "Which of the following laboratory findings best differentiates Thalassemia from Iron Deficiency Anemia?",
+          options: ["Decreased hemoglobin", "Increased reticulocyte count", "Elevated serum ferritin", "Microcytic hypochromic RBCs"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is most likely to be decreased in a patient with Beta Thalassemia Major?",
+          options: ["Serum iron", "Total iron-binding capacity (TIBC)", "Serum ferritin", "Reticulocyte count"],
+          answer: 1
+        },
+        {
+          q: "What is the most accurate investigation used to confirm the diagnosis of Beta Thalassemia?",
+          options: ["Complete blood count (CBC)", "Reticulocyte count", "Hemoglobin electrophoresis", "Peripheral blood smear"],
+          answer: 2
+        },
+        {
+          q: "Ultrasound is helpful in patients with Thalassemia for detecting which of the following?",
+          options: ["Spherocytes", "Pigment gallstones", "Bone deformities", "Target cells"],
+          answer: 1
+        },
+        {
+          q: "Cardiomegaly seen on echocardiography in Thalassemia patients is mainly due to:",
+          options: ["Chronic infections", "Vitamin B12 deficiency", "Iron overload", "Dehydration"],
+          answer: 2
+        },
+        {
+          q: "The most common life-threatening complications of Beta Thalassemia Major involve which of the following organs?",
+          options: ["Lungs, brain, pancreas", "Heart, liver, spleen", "Kidney, intestines, lungs", "Bones, skin, lymph nodes"],
+          answer: 1
+        },
+        {
+          q: "What is the target hemoglobin level to be maintained in a patient with Beta Thalassemia Major?",
+          options: ["6 - 7 g/dL", "7 - 8 g/dL", "8 - 9.5 g/dL", "Above 12 g/dL"],
+          answer: 2
+        },
+        {
+          q: "In Beta Thalassemia Major, if the hemoglobin level drops below 8 g/dL, what is the appropriate treatment?",
+          options: ["Whole blood transfusion", "Platelet transfusion", "Packed red blood cell transfusion", "Bone marrow biopsy"],
+          answer: 2
+        },
+        {
+          q: "Splenectomy is indicated in Beta Thalassemia Major in which of the following situations?",
+          options: ["Mild anemia with stable spleen size", "Low ferritin levels", "Huge spleen with hypersplenism", "Normal hemoglobin with no symptoms"],
+          answer: 2
+        },
+        {
+          q: "Hypersplenism in Beta Thalassemia is diagnosed when all of the following are present EXCEPT:",
+          options: ["Splenomegaly", "Pancytopenia", "Hypoactive bone marrow", "Hyperactive bone marrow"],
+          answer: 2
+        },
+        {
+          q: "What is the most appropriate treatment for hypersplenism with massive splenomegaly in a patient with Beta Thalassemia Major?",
+          options: ["Iron chelation therapy", "Splenectomy", "Bone marrow transplant", "Folic acid supplementation"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is true regarding splenectomy in Beta Thalassemia Major?",
+          options: ["It is preferred before age 2 to avoid splenic complications", "No vaccination is needed before the surgery", "It is performed after age 5, with proper vaccination", "Vaccines are only given after the surgery"],
+          answer: 2
+        },
+        {
+          q: "What is the correct postoperative antibiotic protocol following splenectomy in Beta Thalassemia Major?",
+          options: ["Antibiotics are not required after splenectomy", "Antibiotics should be given for 2 days only", "Antibiotics are given for at least 2 weeks to prevent infection", "Antibiotics are given only if fever occurs"],
+          answer: 2
+        },
+        {
+          q: "What is the most appropriate treatment plan for a child with Beta Thalassemia Major suffering from chronic anemia and iron overload?",
+          options: ["Bone marrow transplantation + Vitamin B12", "Iron supplementation + Splenectomy", "Bone marrow transplantation + Iron chelation therapy", "Oral folic acid + Corticosteroids"],
+          answer: 2
+        },
+        {
+          q: "During premarital screening, a hemoglobin A2 (HbA2) level above which of the following suggests a Beta Thalassemia carrier state?",
+          options: ["2.5%", "3.0%", "3.5%", "4.5%"],
+          answer: 2
+        },
+        {
+          q: "What is the correct definition of diarrhea?",
+          options: ["Passage of blood with stool", "Decrease in stool frequency and consistency", "Increase in stool frequency and/or fluidity compared to the individual's normal pattern", "Passage of formed stool more than three times per day"],
+          answer: 2
+        },
+        {
+          q: "Which of the following types of diarrhea is defined as lasting more than 14 days but less than 30 days?",
+          options: ["Acute diarrhea", "Chronic diarrhea", "Persistent diarrhea", "Recurrent diarrhea"],
+          answer: 2
+        },
+        {
+          q: "Acute diarrhea is defined as diarrhea that lasts for:",
+          options: ["Less than 7 days", "Less than 10 days", "Less than 14 days", "More than 14 days"],
+          answer: 2
+        },
+        {
+          q: "Chronic diarrhea is defined as diarrhea that continues for:",
+          options: ["More than 14 days", "More than 3 weeks", "More than 4 weeks", "More than 6 weeks"],
+          answer: 2
+        },
+        {
+          q: "What is the medical term used when diarrhea is caused by infection of the intestines?",
+          options: ["Enterocolitis", "Colitis", "Gastroenteritis", "Gastritis"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is the most common viral cause of diarrhea in children?",
+          options: ["Adenovirus", "Norovirus", "Rotavirus", "Hepatitis A virus"],
+          answer: 2
+        },
+        {
+          q: "Which of the following infections can cause diarrhea even though it originates outside the gastrointestinal tract?",
+          options: ["Rotavirus", "Salmonella", "Otitis media", "Giardia lamblia"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a non-infectious cause of diarrhea?",
+          options: ["Rotavirus", "Giardia lamblia", "Anxiety", "Shigella"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a common cause of secretory diarrhea?",
+          options: ["Shigella", "Magnesium salts", "Giardia", "Lactose intolerance"],
+          answer: 2
+        },
+        {
+          q: "Invasive diarrhea is typically associated with:",
+          options: ["Viral infection", "Parasitic invasion with inflammation", "Osmotic imbalance from lactose", "Antibiotic use"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is an example of osmotic diarrhea?",
+          options: ["Cholera", "Shigella", "Lactose intolerance", "Giardia"],
+          answer: 2
+        },
+        {
+          q: "What is the primary mechanism by which viral diarrhea (Rotavirus) develops?",
+          options: ["Invasion of colonic mucosa with inflammation", "Inhibition of intestinal motility", "Destruction of villus tips leading to impaired absorption", "Stimulation of bile acid secretion"],
+          answer: 2
+        },
+        {
+          q: "What is the definition of dehydration?",
+          options: ["Excess accumulation of fluid in body cavities", "Increase in extracellular fluid volume", "Abnormal loss of body water and electrolytes", "Increase in blood volume and pressure"],
+          answer: 2
+        },
+        {
+          q: "Which of the following can cause dehydration?",
+          options: ["Increased blood pressure", "Excessive sweating and vomiting", "High protein intake", "Constipation"],
+          answer: 1
+        },
+        {
+          q: "Clinical signs of dehydration in children typically begin to appear after what percentage of body weight is lost?",
+          options: ["2%", "3%", "5%", "10%"],
+          answer: 2
+        },
+        {
+          q: "What is the normal range of serum sodium level in mEq/L?",
+          options: ["120 - 130", "125 - 140", "135 - 145", "145 - 155"],
+          answer: 2
+        },
+        {
+          q: "In isotonic dehydration, the serum sodium level is typically:",
+          options: ["< 130 mEq/L", "Between 130 - 150 mEq/L", "> 150 mEq/L", "< 120 mEq/L"],
+          answer: 1
+        },
+        {
+          q: "A child presenting with very dry tongue, intense thirst, and irritability is likely suffering from which type of dehydration?",
+          options: ["Isotonic", "Hypotonic", "Hypertonic", "Normovolemic"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a typical feature of hypotonic dehydration?",
+          options: ["Serum sodium above 150 mEq/L", "Woody tongue", "Cellular dehydration", "Convulsions due to brain edema"],
+          answer: 3
+        },
+        {
+          q: "A child with dehydration presents with rapid deep breathing. What is the most likely acid-base disturbance?",
+          options: ["Metabolic alkalosis", "Respiratory alkalosis", "Metabolic acidosis", "Respiratory acidosis"],
+          answer: 2
+        },
+        {
+          q: "What is the main cause of metabolic acidosis in a dehydrated child with severe diarrhea?",
+          options: ["Excessive glucose in blood", "Excess loss of bicarbonate", "Increased potassium intake", "Vomiting"],
+          answer: 1
+        },
+        {
+          q: "Which of the following potassium levels indicates hypokalemia?",
+          options: ["2.8 mEq/L", "4.3 mEq/L", "5.1 mEq/L", "5.8 mEq/L"],
+          answer: 0
+        },
+        {
+          q: "A child who lost less than 5% of their body weight due to diarrhea is classified as having:",
+          options: ["Moderate dehydration", "Severe dehydration", "Mild dehydration", "No dehydration"],
+          answer: 2
+        },
+        {
+          q: "A child with diarrhea is diagnosed with severe dehydration. What is the most likely percentage of body weight lost?",
+          options: ["Less than 5%", "Between 5% and 10%", "More than 10%", "Exactly 5%"],
+          answer: 2
+        },
+        {
+          q: "A child with diarrhea has lost about 7% of their body weight and shows signs of dry mouth and increased thirst. What is the most likely degree of dehydration?",
+          options: ["No dehydration", "Mild dehydration", "Moderate dehydration", "Severe dehydration"],
+          answer: 2
+        },
+        {
+          q: "In Plan A of diarrhea management (no dehydration), what is the correct action a mother should take after each episode of diarrhea?",
+          options: ["Give antibiotics to stop diarrhea", "Give the child half a cup (100 ml) of ORS solution", "Stop breastfeeding immediately", "Give the child one liter of water at once"],
+          answer: 1
+        },
+        {
+          q: "In Plan C for managing severe dehydration, what is the correct initial fluid therapy if the child is in shock?",
+          options: ["ORS 100 ml/kg over 4 hours", "Ringer lactate 20 ml/kg bolus", "Glucose water 5% 50 ml/kg", "Normal saline 10 ml/kg slowly"],
+          answer: 1
+        },
+        {
+          q: "A child with severe dehydration but no signs of shock is admitted to the hospital. What is the correct fluid management?",
+          options: ["Ringer lactate 20 ml/kg bolus", "ORS 75 ml/kg orally", "IV fluids 100 ml/kg over 6 hours", "No treatment required"],
+          answer: 2
+        },
+        {
+          q: "A 2-year-old child has had mild diarrhea since yesterday. He is alert, drinks well, his eyes are normal, tears are present, tongue is moist, and skin pinch returns quickly. What is the appropriate management?",
+          options: [
+            "Start IV fluids and admit the child to hospital",
+            "Give antibiotics and antidiarrheal medications",
+            "Give oral rehydration solution at 75 ml/kg over 4 hours and observe",
+            "Give extra fluids at home, continue feeding, and advise the mother about warning signs"
+          ],
+          answer: 3
+        },
+        {
+          q: "A 1.5-year-old girl presents with 2-day history of diarrhea. She is restless and drinks eagerly. Her eyes are sunken, no tears are present, tongue is dry, and skin pinch returns slowly. What is the appropriate treatment?",
+          options: [
+            "Encourage breastfeeding only and send her home",
+            "Give oral rehydration solution 75 ml/kg over 4 hours and reassess",
+            "Start IV fluids immediately",
+            "Withhold feeding for 24 hours"
+          ],
+          answer: 1
+        },
+        {
+          q: "A 3-year-old boy is brought to the ER after 3 days of severe diarrhea. He is lethargic, drinks poorly, has very sunken eyes, no tears, very dry tongue, and skin pinch returns very slowly. What is the best initial management?",
+          options: [
+            "Begin oral fluids slowly at home",
+            "Give IV Ringer lactate 100 ml/kg, monitor, and support airway and oxygen if needed",
+            "Give only antibiotics and send home",
+            "Give high doses of glucose and stop feeding"
+          ],
+          answer: 1
+        },
+        {
+          q: "What is the most common age group affected by tonsillopharyngitis?",
+          options: ["Below 1 year", "1 - 3 years", "4 - 7 years", "10 - 12 years"],
+          answer: 2
+        },
+        {
+          q: "What is the most common cause of tonsillopharyngitis?",
+          options: ["Bacterial infection", "Fungal infection", "Viral infection", "Allergic reaction"],
+          answer: 2
+        },
+        {
+          q: "Which of the following viruses is commonly associated with conjunctivitis, rhinitis, and hoarseness in tonsillopharyngitis?",
+          options: ["Coxsackie virus", "Epstein-Barr virus", "Streptococcus", "Adenovirus"],
+          answer: 3
+        },
+        {
+          q: "Which bacterial organism is most commonly associated with severe tonsillopharyngitis and complications?",
+          options: ["Staphylococcus aureus", "Streptococcus pneumoniae", "Group A beta-hemolytic streptococcus", "Mycoplasma pneumoniae"],
+          answer: 2
+        },
+        {
+          q: "Which of the following clinical features is most likely found in streptococcal tonsillopharyngitis?",
+          options: ["Hoarseness", "Conjunctivitis", "Pseudomembrane and yellow pus", "Vesicles and ulcers"],
+          answer: 2
+        },
+        {
+          q: "The presence of vesicles and ulcers in the oropharynx suggests infection with:",
+          options: ["Epstein-Barr virus", "Coxsackie virus", "Adenovirus", "Rhinovirus"],
+          answer: 1
+        },
+        {
+          q: "Epstein-Barr virus typically causes which of the following in tonsillopharyngitis?",
+          options: ["Skin rash", "Laryngospasm", "Generalized lymphadenopathy", "Hepatic failure"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is NOT a possible complication of tonsillopharyngitis?",
+          options: ["Otitis media", "Acute glomerulonephritis", "Bronchial asthma", "Rheumatic fever"],
+          answer: 2
+        },
+        {
+          q: "What is the first-line diagnostic tool for confirming streptococcal tonsillopharyngitis?",
+          options: ["X-ray", "Chest CT", "Throat swab", "Urine analysis"],
+          answer: 2
+        },
+        {
+          q: "The recommended duration of antibiotic treatment for streptococcal tonsillopharyngitis is:",
+          options: ["3 days", "5 days", "7 days", "10 days"],
+          answer: 3
+        },
+        {
+          q: "Which of the following is an absolute indication for tonsillectomy?",
+          options: ["Mild recurrent sore throat", "Hoarseness of voice", "Airway obstruction", "Fever"],
+          answer: 2
+        },
+        {
+          q: "Tonsillectomy is considered if the child had how many attacks in one year?",
+          options: ["3", "4", "6 or more", "10"],
+          answer: 2
+        },
+        {
+          q: "If the abnormal breath sound is bronchial in origin, it is most likely:",
+          options: ["Inspiratory", "Expiratory", "Biphasic", "Continuous"],
+          answer: 1
+        },
+        {
+          q: "If the abnormal breath sound is of laryngeal origin, it is most likely:",
+          options: ["Expiratory", "Inspiratory", "Biphasic", "Continuous"],
+          answer: 1
+        },
+        {
+          q: "Stridor is caused by:",
+          options: ["Complete airway obstruction", "Partial upper airway obstruction", "Nasal congestion", "Bronchial asthma"],
+          answer: 1
+        },
+        {
+          q: "Which part of the airway is commonly involved in stridor?",
+          options: ["Alveoli", "Bronchioles", "Larynx and trachea", "Nasopharynx"],
+          answer: 2
+        },
+        {
+          q: "In laryngomalacia, stridor appears:",
+          options: ["Immediately at birth", "Few days after birth", "At 1 year old", "After 2 years"],
+          answer: 1
+        },
+        {
+          q: "Which gender is more commonly affected by laryngomalacia?",
+          options: ["Female", "Male", "Equal in both", "Depends on delivery mode"],
+          answer: 1
+        },
+        {
+          q: "Which position improves symptoms in laryngomalacia?",
+          options: ["Supine", "Prone", "Sitting", "Lateral"],
+          answer: 1
+        },
+        {
+          q: "A feature of mild laryngomalacia is:",
+          options: ["Constant cyanosis", "Stridor only when baby is disturbed", "Severe dyspnea at rest", "Requires immediate surgery"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is true about laryngomalacia?",
+          options: ["Always requires surgery", "Self-limited by age 1 - 2 years", "Caused by bacteria", "Causes productive cough"],
+          answer: 1
+        },
+        {
+          q: "The most common virus causing acute viral laryngitis is:",
+          options: ["Measles virus", "Adenovirus", "Parainfluenza virus", "Influenza B"],
+          answer: 2
+        },
+        {
+          q: "Typical age group affected by acute viral laryngitis is:",
+          options: ["Newborns", "< 3 months", "3 months - 3 years", "> 5 years"],
+          answer: 2
+        },
+        {
+          q: "Symptoms of acute viral laryngitis include all EXCEPT:",
+          options: ["Croupy cough", "Hoarseness", "High-grade fever", "Mild rhinitis"],
+          answer: 2
+        },
+        {
+          q: "Which is the most common cause of laryngotracheobronchitis?",
+          options: ["RSV", "Adenovirus", "Parainfluenza virus", "Bacterial infection"],
+          answer: 2
+        },
+        {
+          q: "A distinguishing feature of laryngotracheobronchitis is:",
+          options: ["Only inspiratory stridor", "No respiratory distress", "Both inspiratory and expiratory stridor", "No fever"],
+          answer: 2
+        },
+        {
+          q: "Respiratory distress is common in:",
+          options: ["Acute viral laryngitis", "Laryngomalacia (mild cases)", "Laryngotracheobronchitis", "Rhinitis"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is a treatment option for laryngomalacia in severe cases?",
+          options: ["Antibiotics", "Tracheostomy", "Nasal decongestants", "Antivirals"],
+          answer: 1
+        },
+        {
+          q: "A 2-year-old child suddenly wakes up at night with a loud barking cough and hoarseness. He has no fever and symptoms improve within a few hours. What is the most likely diagnosis?",
+          options: ["Acute epiglottitis", "Acute viral laryngitis", "Acute spasmodic laryngitis", "Laryngomalacia"],
+          answer: 2
+        },
+        {
+          q: "Which of the following is NOT typically seen in acute epiglottitis?",
+          options: ["Muffled voice", "Severe barking cough", "Drooling", "High fever"],
+          answer: 1
+        },
+        {
+          q: "Which of the following signs strongly suggests a diagnosis of acute epiglottitis over acute spasmodic laryngitis?",
+          options: ["Hoarseness and croupy cough", "Inspiratory stridor only at night", "Preference for upright posture and dysphagia", "Rapid improvement with no treatment"],
+          answer: 2
+        },
+        {
+          q: "What is the most appropriate immediate management for a child suspected to have acute epiglottitis with respiratory distress?",
+          options: ["Start corticosteroids at home", "Give ibuprofen and observe", "Perform emergency intubation or tracheostomy", "Give bronchodilator inhaler"],
+          answer: 2
+        },
+        {
+          q: "What is the causative organism most commonly associated with acute epiglottitis?",
+          options: ["Parainfluenza virus", "Hemophilus influenzae type B", "Streptococcus pneumoniae", "Respiratory syncytial virus"],
+          answer: 1
+        },
+        {
+          q: "Which of the following features differentiates acute spasmodic laryngitis from acute epiglottitis?",
+          options: ["Onset during the night", "Associated with drooling", "Sudden severe symptoms", "Recurrent episodes"],
+          answer: 3
+        },
+        {
+          q: "Which of the following treatments is NOT used in acute spasmodic laryngitis?",
+          options: ["Nebulized adrenaline", "Corticosteroids", "Mechanical ventilation in severe cases", "Analgesics"],
+          answer: 3
+        },
+        {
+          q: "Which of the following is the most important line of treatment in severe acute bronchiolitis?",
+          options: ["Antibiotics", "Corticosteroids", "Humidified oxygen", "Bronchodilators"],
+          answer: 2
+        },
+        {
+          q: "A child presents with severe asthma attack that does not respond to bronchodilators for more than 24 hours. He is drowsy, has bradycardia, and absent wheezes. What is the most likely diagnosis?",
+          options: ["Acute viral bronchiolitis", "Bronchopneumonia", "Status asthmaticus", "Acute laryngitis"],
+          answer: 2
+        },
+        {
+          q: "A 5-year-old child with pneumonia is drowsy, has dyspnea, pleuritic chest pain, and fever 39°C. On chest exam: expiratory grunt and flaring of nostrils. What type of pneumonia is most likely?",
+          options: ["Interstitial pneumonia", "Lobar pneumonia", "Viral pneumonia", "Bronchopneumonia"],
+          answer: 1
+        },
+        {
+          q: "Which of the following complications is most commonly seen at the onset of pneumonia caused by H. influenzae?",
+          options: ["Meningitis", "Otitis media", "Lung abscess", "Heart failure"],
+          answer: 1
+        },
+        {
+          q: "What is the best first-line empirical antibiotic therapy for a hospitalized child with pneumonia?",
+          options: ["Ampicillin alone", "3rd generation cephalosporin ± amoxicillin", "Vancomycin only", "Macrolide only"],
+          answer: 1
+        },
+        {
+          q: "A child with pneumonia shows increased respiratory rate, retractions, and grunting. Which of the following should be added to the management?",
+          options: ["Oxygen therapy if O2 saturation is below 90%", "Antihistamines", "Corticosteroids as first line", "Stop oral feeding immediately"],
+          answer: 0
+        },
+        {
+          q: "Which of the following signs is most specific for acute bronchiolitis in infants?",
+          options: ["Productive cough", "Bilateral wheezing and chest hyperinflation", "Purulent sputum", "Recurrent epistaxis"],
+          answer: 1
+        },
+        {
+          q: "Which of the following is considered a danger sign in pneumonia requiring urgent hospital admission?",
+          options: ["Mild fever", "Feeding well", "Chest retractions and grunting", "Nasal congestion only"],
+          answer: 2
+        },
+        {
+          q: "Which of the following organisms is commonly associated with interstitial pneumonia in children?",
+          options: ["Klebsiella pneumoniae", "Mycoplasma pneumoniae", "Streptococcus pneumoniae", "Haemophilus influenzae"],
+          answer: 1
+         },
+        {
+          tf: [
+        { q: "Hypokalemia causes abdominal distension.", options: ["True", "False"], answer: 0 },
+        { q: "Metabolic acidosis is treated by IV sodium bicarbonate.", options: ["True", "False"], answer: 0 },
+        { q: "Patients drink eagerly in some dehydration.", options: ["True", "False"], answer: 0 },
+        { q: "Patients are lethargic and floppy in severe dehydration.", options: ["True", "False"], answer: 0 },
+        { q: "Patients with no signs of dehydration are treated in hospital.", options: ["True", "False"], answer: 1 },
+        { q: "Oral rehydration therapy (ORS) is diluted in 200 ml of water.", options: ["True", "False"], answer: 0 },
+        { q: "Blood in stools is one of the warning signs of Plan A.", options: ["True", "False"], answer: 0 },
+        { q: "Some dehydration is treated with IV fluids.", options: ["True", "False"], answer: 1 },
+        { q: "Severe dehydration is treated with IV fluids.", options: ["True", "False"], answer: 0 },
+        { q: "Severe dehydration is treated with IV fluids 75 ml/kg.", options: ["True", "False"], answer: 1 },
+        { q: "In diarrhea treatment, you must stop feeding.", options: ["True", "False"], answer: 1 },
+        { q: "Dysenteric diarrhea is an indication for antimicrobial treatment.", options: ["True", "False"], answer: 0 },
+        { q: "Diarrhea is the passage of more than several soft stools.", options: ["True", "False"], answer: 1 },
+        { q: "Chronic diarrhea is diarrhea lasting more than 3 weeks.", options: ["True", "False"], answer: 1 },
+        { q: "Gastroenteritis is diarrhea due to an infectious etiology.", options: ["True", "False"], answer: 0 },
+        { q: "Viral diarrhea is caused by a virus invading the villus crypt.", options: ["True", "False"], answer: 1 },
+        { q: "Clinical signs of dehydration appear if there is a loss of less than 5% of body weight.", options: ["True", "False"], answer: 1 },
+        { q: "In hypertonic dehydration, the serum sodium is elevated above 150 mEq/L.", options: ["True", "False"], answer: 0 },
+        { q: "Normal serum potassium (K) is less than 3 mEq/L.", options: ["True", "False"], answer: 1 },
+        { q: "Laryngomalacia occurs in older children.", options: ["True", "False"], answer: 1 },
+        { q: "Hepatitis A is transmitted through the placenta from mother to fetus.", options: ["True", "False"], answer: 1 },
+        { q: "Hepatitis B is independent from other viruses.", options: ["True", "False"], answer: 0 },
+        { q: "Hepatitis B can be transmitted through shared syringes.", options: ["True", "False"], answer: 0 },
+        { q: "Hepatitis A can cause chronic hepatitis and liver cirrhosis.", options: ["True", "False"], answer: 1 },
+        { q: "Acute bronchiolitis is caused by respiratory syncytial virus (RSV).", options: ["True", "False"], answer: 0 },
+        { q: "Lobar pneumonia is localized to one or more lung segments or lobes.", options: ["True", "False"], answer: 0 },
+        { q: "Stridor is an expiratory sound.", options: ["True", "False"], answer: 1 },
+        { q: "Acute epiglottitis is caused by Hemophilus influenzae.", options: ["True", "False"], answer: 0 },
+        { q: "Gastroenteritis is mainly caused by dissemination of infection outside the GIT.", options: ["True", "False"], answer: 1 },
+        { q: "Intussusception is a surgical complication of gastroenteritis.", options: ["True", "False"], answer: 0 },
+        { q: "Rheumatic carditis is pancarditis.", options: ["True", "False"], answer: 0 },
+        { q: "Rheumatic arthritis is migratory.", options: ["True", "False"], answer: 0 },
+        { q: "Rheumatic fever occurs following Staphylococcus infection.", options: ["True", "False"], answer: 1 },
+        { q: "Arthralgia is a major criterion for rheumatic fever.", options: ["True", "False"], answer: 1 },
+        { q: "2 major criteria and 2 minor criteria are required to diagnose rheumatic fever.", options: ["True", "False"], answer: 1 },
+        { q: "Steroids such as Prednisone are given to treat rheumatic carditis.", options: ["True", "False"], answer: 0 },
+        { q: "1,200,000 IU of Benzathine Penicillin is given for children weighing less than 27 kg.", options: ["True", "False"], answer: 1 },
+        { q: "In rheumatic carditis, cardiac size is decreased.", options: ["True", "False"], answer: 1 },
+        { q: "Orthopnea is a manifestation of systemic venous congestion.", options: ["True", "False"], answer: 1 },
+        { q: "The most common cause of diarrhea is Rotavirus.", options: ["True", "False"], answer: 0 },
+        { q: "Diarrhea due to an extra-intestinal cause is called parenteral diarrhea.", options: ["True", "False"], answer: 0 },
+        { q: "Diarrhea occurs more than 3 times per day.", options: ["True", "False"], answer: 1 },
+        { q: "Normal serum potassium is 3 - 5 mEq/L.", options: ["True", "False"], answer: 0 },
+        { q: "Dysentery is an indication to start antimicrobial medication in diarrhea.", options: ["True", "False"], answer: 0 },
+        { q: "Disseminated intravascular coagulopathy (DIC) can be caused due to severe dehydration.", options: ["True", "False"], answer: 0 },
+        { q: "Enlarged tender liver is a sign of congestive heart failure.", options: ["True", "False"], answer: 0 },
+        { q: "Rheumatic fever is mainly caused by a delayed immunologic reaction to GABHS pharyngeal infection, not skin infection.", options: ["True", "False"], answer: 0 },
+        { q: "Streptococcal skin infections are considered a main cause of rheumatic fever.", options: ["True", "False"], answer: 1 },
+        { q: "Rheumatic fever is frequently reported in children under 2 years old.", options: ["True", "False"], answer: 1 },
+        { q: "There is a low incidence of rheumatic fever in children under 5 years old.", options: ["True", "False"], answer: 0 },
+        { q: "Arthritis is considered one of the minor criteria in the Modified Jones Criteria for diagnosing rheumatic fever.", options: ["True", "False"], answer: 1 },
+        { q: "In the initial attack of rheumatic fever, one major manifestation alone is sufficient for diagnosis.", options: ["True", "False"], answer: 1 },
+        { q: "In recurrent attacks of rheumatic fever, three minor manifestations alone without evidence of streptococcal infection are sufficient for diagnosis.", options: ["True", "False"], answer: 1 },
+        { q: "A child weighing more than 27 kg should receive 600,000 IU of Benzathine Penicillin G for primary prevention of rheumatic fever.", options: ["True", "False"], answer: 1 }
+      ]
+    };
+
+    let currentSection = "mcq";
+    let currentIndex = 0;
+    let userAnswers = [];
+    let viewedSet = new Set();
+
+    document.getElementById("mcq-count-label").textContent = `${quizData.mcq.length} Questions`;
+    document.getElementById("tf-count-label").textContent = `${quizData.tf.length} Questions`;
+
+    function hideAllScreens() {
+      document.getElementById("welcome-screen").classList.add("hidden");
+      document.getElementById("sections-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.add("hidden");
+      document.getElementById("result-screen").classList.add("hidden");
+    }
+
+    function showSections() {
+      hideAllScreens();
+      document.getElementById("sections-screen").classList.remove("hidden");
+    }
+
+    function startSection(sectionKey) {
+      currentSection = sectionKey;
+      currentIndex = 0;
+      const questions = quizData[currentSection];
+      userAnswers = new Array(questions.length).fill(null);
+      viewedSet = new Set();
+
+      document.getElementById("current-section-title").textContent =
+        sectionKey === "mcq"
+          ? "First Section : MCQs"
+          : "Second Section : True or False Questions";
+
+      hideAllScreens();
+      document.getElementById("quiz-screen").classList.remove("hidden");
+      renderQuestion();
+    }
+
+    function retrySection() {
+      startSection(currentSection);
+    }
+
+    function updateStats() {
+      const questions = quizData[currentSection];
+      const total = questions.length;
+      const viewed = viewedSet.size;
+      let answered = 0;
+      let correct = 0;
+      let wrong = 0;
+
+      userAnswers.forEach((ans, idx) => {
+        if (ans !== null) {
+          answered++;
+          if (ans === questions[idx].answer) {
+            correct++;
+          } else {
+            wrong++;
+          }
+        }
+      });
+
+      document.getElementById("stat-total").textContent = total;
+      document.getElementById("stat-viewed").textContent = viewed;
+      document.getElementById("stat-answered").textContent = answered;
+      document.getElementById("stat-correct").textContent = correct;
+      document.getElementById("stat-wrong").textContent = wrong;
+    }
+
+    function renderQuestion() {
+      const questions = quizData[currentSection];
+      const item = questions[currentIndex];
+      viewedSet.add(currentIndex);
+
+      document.getElementById("question-counter").textContent =
+        `Question ${currentIndex + 1} of ${questions.length}`;
+      document.getElementById("question-text").textContent = item.q;
+
+      const optionsList = document.getElementById("options-list");
+      optionsList.innerHTML = "";
+
+      const letters = ["A", "B", "C", "D"];
+      const chosen = userAnswers[currentIndex];
+      const isAnswered = chosen !== null;
+
+      item.options.forEach((optText, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.disabled = isAnswered;
+
+        const letterSpan = document.createElement("span");
+        letterSpan.className = "option-letter";
+        letterSpan.textContent = currentSection === "mcq" ? letters[idx] : (idx === 0 ? "T" : "F");
+
+        const textSpan = document.createElement("span");
+        textSpan.textContent = optText;
+
+        btn.appendChild(letterSpan);
+        btn.appendChild(textSpan);
+
+        if (isAnswered) {
+          if (idx === item.answer) {
+            btn.classList.add("correct");
+          } else if (idx === chosen && chosen !== item.answer) {
+            btn.classList.add("wrong");
+          }
+        } else {
+          btn.onclick = () => selectAnswer(idx);
+        }
+
+        optionsList.appendChild(btn);
+      });
+
+      const feedbackBox = document.getElementById("feedback-box");
+      if (isAnswered) {
+        feedbackBox.classList.remove("hidden", "feedback-correct", "feedback-wrong");
+        if (chosen === item.answer) {
+          feedbackBox.classList.add("feedback-correct");
+          feedbackBox.textContent = "Correct! Well done.";
+        } else {
+          feedbackBox.classList.add("feedback-wrong");
+          feedbackBox.textContent = `Incorrect. The correct answer is: ${item.options[item.answer]}`;
+        }
+      } else {
+        feedbackBox.classList.add("hidden");
+      }
+
+      // Navigation buttons
+      document.getElementById("back-btn").disabled = currentIndex === 0;
+
+      const nextBtn = document.getElementById("next-btn");
+      const submitBtn = document.getElementById("submit-btn");
+
+      if (currentIndex === questions.length - 1) {
+        nextBtn.classList.add("hidden");
+        submitBtn.classList.remove("hidden");
+      } else {
+        nextBtn.classList.remove("hidden");
+        submitBtn.classList.add("hidden");
+      }
+
+      updateStats();
+    }
+
+    function selectAnswer(selectedIndex) {
+      if (userAnswers[currentIndex] !== null) return;
+      userAnswers[currentIndex] = selectedIndex;
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      const questions = quizData[currentSection];
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      }
+    }
+
+    function submitQuiz() {
+      const questions = quizData[currentSection];
+      const total = questions.length;
+      const viewed = viewedSet.size;
+      let correct = 0;
+      let wrong = 0;
+
+      userAnswers.forEach((ans, idx) => {
+        if (ans !== null) {
+          if (ans === questions[idx].answer) {
+            correct++;
+          } else {
+            wrong++;
+          }
+        }
+      });
+
+      const percent = Math.round((correct / total) * 100);
+
+      document.getElementById("result-section-badge").textContent =
+        currentSection === "mcq"
+          ? "FIRST SECTION : MCQs"
+          : "SECOND SECTION : TRUE OR FALSE";
+      document.getElementById("final-score").textContent = `${correct} / ${total}`;
+      document.getElementById("final-percent").textContent = `${percent}%`;
+      document.getElementById("res-total").textContent = total;
+      document.getElementById("res-viewed").textContent = viewed;
+      document.getElementById("res-correct").textContent = correct;
+      document.getElementById("res-wrong").textContent = wrong;
+
+      hideAllScreens();
+      document.getElementById("result-screen").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
+
+    
+    
+      
+
+
+        
